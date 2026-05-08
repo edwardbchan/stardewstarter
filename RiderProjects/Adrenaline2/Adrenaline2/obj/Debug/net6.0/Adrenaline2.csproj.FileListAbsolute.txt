@@ -1,0 +1,8 @@
+/Users/edwardchan/RiderProjects/Adrenaline2/Adrenaline2/bin/Debug/net6.0/Adrenaline2.deps.json
+/Users/edwardchan/RiderProjects/Adrenaline2/Adrenaline2/bin/Debug/net6.0/Adrenaline2.dll
+/Users/edwardchan/RiderProjects/Adrenaline2/Adrenaline2/obj/Debug/net6.0/Adrenaline2.csproj.AssemblyReference.cache
+/Users/edwardchan/RiderProjects/Adrenaline2/Adrenaline2/obj/Debug/net6.0/Adrenaline2.GeneratedMSBuildEditorConfig.editorconfig
+/Users/edwardchan/RiderProjects/Adrenaline2/Adrenaline2/obj/Debug/net6.0/Adrenaline2.AssemblyInfoInputs.cache
+/Users/edwardchan/RiderProjects/Adrenaline2/Adrenaline2/obj/Debug/net6.0/Adrenaline2.AssemblyInfo.cs
+/Users/edwardchan/RiderProjects/Adrenaline2/Adrenaline2/obj/Debug/net6.0/Adrenaline2.csproj.CoreCompileInputs.cache
+/Users/edwardchan/RiderProjects/Adrenaline2/Adrenaline2/obj/Debug/net6.0/Adrenaline2.dll

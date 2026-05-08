@@ -1,0 +1,10 @@
+{
+  "Name": "Adrenaline2",
+  "Author": "Edward",
+  "Version": "1.0.0",
+  "Description": "<Makes an adrenaline bar in combat",
+  "UniqueID": "Edward.adrenaline",
+  "EntryDll": "Adrenaline2.dll",
+  "MinimumApiVersion": "4.0.0",
+  "UpdateKeys": []
+}
