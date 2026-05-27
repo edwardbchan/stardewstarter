@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "bOHa9KPywY8=",
+  "dgSpecHash": "1nYSGdiIJJs=",
   "success": true,
   "projectFilePath": "/Users/edwardchan/RiderProjects/Adrenaline2/Adrenaline2/Adrenaline2.csproj",
   "expectedPackageFiles": [
+    "/Users/edwardchan/.nuget/packages/lib.harmony/2.4.2/lib.harmony.2.4.2.nupkg.sha512",
     "/Users/edwardchan/.nuget/packages/pathoschild.stardew.modbuildconfig/4.4.0/pathoschild.stardew.modbuildconfig.4.4.0.nupkg.sha512"
   ],
   "logs": []

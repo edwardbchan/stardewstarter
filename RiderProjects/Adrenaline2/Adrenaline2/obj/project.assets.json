@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "Lib.Harmony/2.4.2": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/0Harmony.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/0Harmony.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "Pathoschild.Stardew.ModBuildConfig/4.4.0": {
         "type": "package",
         "build": {
@@ -11,6 +24,57 @@
     }
   },
   "libraries": {
+    "Lib.Harmony/2.4.2": {
+      "sha512": "D2X9ojVjqbqdqWVK3VQETrEb56yVoXxtEp6tP5UvW0PP+bA4uJiswqOxF8GhH02ECwyevUa9vwhwdLzyXfksbw==",
+      "type": "package",
+      "path": "lib.harmony/2.4.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "HarmonyLogo.png",
+        "LICENSE",
+        "README.md",
+        "lib.harmony.2.4.2.nupkg.sha512",
+        "lib.harmony.nuspec",
+        "lib/net10.0/0Harmony.dll",
+        "lib/net10.0/0Harmony.pdb",
+        "lib/net10.0/0Harmony.xml",
+        "lib/net35/0Harmony.dll",
+        "lib/net35/0Harmony.pdb",
+        "lib/net35/0Harmony.xml",
+        "lib/net452/0Harmony.dll",
+        "lib/net452/0Harmony.pdb",
+        "lib/net452/0Harmony.xml",
+        "lib/net472/0Harmony.dll",
+        "lib/net472/0Harmony.pdb",
+        "lib/net472/0Harmony.xml",
+        "lib/net48/0Harmony.dll",
+        "lib/net48/0Harmony.pdb",
+        "lib/net48/0Harmony.xml",
+        "lib/net5.0/0Harmony.dll",
+        "lib/net5.0/0Harmony.pdb",
+        "lib/net5.0/0Harmony.xml",
+        "lib/net6.0/0Harmony.dll",
+        "lib/net6.0/0Harmony.pdb",
+        "lib/net6.0/0Harmony.xml",
+        "lib/net7.0/0Harmony.dll",
+        "lib/net7.0/0Harmony.pdb",
+        "lib/net7.0/0Harmony.xml",
+        "lib/net8.0/0Harmony.dll",
+        "lib/net8.0/0Harmony.pdb",
+        "lib/net8.0/0Harmony.xml",
+        "lib/net9.0/0Harmony.dll",
+        "lib/net9.0/0Harmony.pdb",
+        "lib/net9.0/0Harmony.xml",
+        "lib/netcoreapp3.0/0Harmony.dll",
+        "lib/netcoreapp3.0/0Harmony.pdb",
+        "lib/netcoreapp3.0/0Harmony.xml",
+        "lib/netcoreapp3.1/0Harmony.dll",
+        "lib/netcoreapp3.1/0Harmony.pdb",
+        "lib/netcoreapp3.1/0Harmony.xml",
+        "lib/netstandard2.0/_._"
+      ]
+    },
     "Pathoschild.Stardew.ModBuildConfig/4.4.0": {
       "sha512": "Yi7/8bZlLS1bqZxft1yZWxJmIBfIoRxQBFIwWrF0AjC4/j/HmWdDC7dbNzzM4ZtOTtjOAQ8AC7WjP6KHgLPpdg==",
       "type": "package",
@@ -34,6 +98,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Lib.Harmony >= 2.4.2",
       "Pathoschild.Stardew.ModBuildConfig >= 4.4.0"
     ]
   },
@@ -74,6 +139,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "Lib.Harmony": {
+            "target": "Package",
+            "version": "[2.4.2, )"
+          },
           "Pathoschild.Stardew.ModBuildConfig": {
             "target": "Package",
             "version": "[4.4.0, )"
