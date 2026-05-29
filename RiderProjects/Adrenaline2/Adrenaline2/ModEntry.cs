@@ -1,5 +1,5 @@
 using System;
-using HarmonyLib;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
@@ -11,6 +11,9 @@ namespace Adrenaline2
 {
     internal sealed class ModEntry : Mod
     {
+        private Dictionary<NPC, int> _monsterHealthLastTick = new();
+        private int _hitCooldown = 0;
+        private const int HitCooldownDuration = 40;
         private float _adrenalineBar = 0f;
         private const float MaxBar = 10f;
         private bool _adrenalineActive = false;
@@ -29,12 +32,12 @@ namespace Adrenaline2
             helper.Events.Display.RenderedHud += OnRenderedHud;
             helper.Events.Input.ButtonPressed += OnButtonPressed;
             helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
-          
         }
 
         private void OnSaveLoaded(object? sender, SaveLoadedEventArgs e)
         {
             _lastHealth = Game1.player.health;
+            _monsterHealthLastTick.Clear();
         }
 
         private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
@@ -43,19 +46,20 @@ namespace Adrenaline2
 
             var player = Game1.player;
 
-            if (player.health < _lastHealth)
+            // Check damage BEFORE updating _lastHealth
+            bool tookDamage = player.health < _lastHealth;
+
+            if (tookDamage && !_adrenalineActive)
             {
                 _adrenalineBar = 0f;
-                if (_adrenalineActive)
-                {
-                    _adrenalineActive = false;
-                    _adrenalineTimer = 0;
-                }
+                _hitCooldown = HitCooldownDuration;
                 Monitor.Log("Took damage! Adrenaline reset.", LogLevel.Debug);
             }
 
+            // Now update last health
             _lastHealth = player.health;
 
+            // Tick adrenaline timer
             if (_adrenalineActive)
             {
                 _adrenalineTimer--;
@@ -65,30 +69,53 @@ namespace Adrenaline2
                     Monitor.Log("Adrenaline wore off.", LogLevel.Debug);
                 }
             }
+
+            // Tick hit cooldown
+            if (_hitCooldown > 0)
+            {
+                _hitCooldown--;
+            }
+
+            // Track monster health and detect actual damage dealt
+            if (player.currentLocation != null)
+            {
+                var currentMonsters = new Dictionary<NPC, int>();
+                bool hitLanded = false;
+
+                foreach (NPC npc in player.currentLocation.characters)
+                {
+                    if (!npc.IsMonster) continue;
+                    var monster = (Monster)npc;
+                    currentMonsters[npc] = monster.Health;
+
+                    if (_monsterHealthLastTick.TryGetValue(npc, out int lastHealth) &&
+                        monster.Health < lastHealth)
+                    {
+                        hitLanded = true;
+                    }
+                }
+
+                // Check for monsters that were killed this tick
+                foreach (var kvp in _monsterHealthLastTick)
+                {
+                    if (!currentMonsters.ContainsKey(kvp.Key) && kvp.Value > 0)
+                    {
+                        hitLanded = true;
+                    }
+                }
+
+                if (hitLanded && !tookDamage && _hitCooldown == 0)
+                {
+                    _hitCooldown = HitCooldownDuration;
+                    RegisterHit();
+                }
+
+                _monsterHealthLastTick = currentMonsters;
+            }
         }
 
         private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
         {
-            Farmer character = Game1.player;
-            Vector2 pos = character.Tile;
-            foreach (Vector2 adjacentTilesOffset in Character.AdjacentTilesOffsets)
-            {
-                Vector2 tileLocation2 = pos + adjacentTilesOffset;
-                NPC npc = character.currentLocation.isCharacterAtTile(tileLocation2);
-                this.Monitor.Log("tile position " + tileLocation2, LogLevel.Debug);
-                if (npc != null)
-                {
-                    this.Monitor.Log("this is an npc " + npc.Name, LogLevel.Debug);
-                }
-
-                if (npc != null && npc.IsMonster && !npc.Name.Equals("Cat"))
-                {
-                   
-                    if (_adrenalineActive) return;
-                    _adrenalineBar = Math.Min(_adrenalineBar + 1f, MaxBar);
-                    Monitor.Log($"Hit registered! Bar: {_adrenalineBar}/{MaxBar}", LogLevel.Debug);
-                }
-            }
             if (!Context.IsWorldReady) return;
             if (e.Button != SButton.Q) return;
             if (_adrenalineBar < MaxBar) return;
@@ -131,16 +158,5 @@ namespace Adrenaline2
         }
 
         public bool IsAdrenalineActive() => _adrenalineActive;
-    }
-
-    internal class MonsterPatch
-    {
-        public static void DamageMonster_Postfix(Farmer? who, bool __result)
-        {
-            if (who == null || !who.IsLocalPlayer) return;
-            if (!__result) return; // no monster was actually hit
-
-            ModEntry.Instance.RegisterHit();
-        }
     }
 }
